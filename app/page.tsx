@@ -3,18 +3,18 @@ import React, { useState, useEffect } from "react";
 
 export default function Home() {
   // Set the target date and time for countdown
-  const targetDate = new Date("2024-05-23T08:15:00");
+  const targetDate: any = new Date("2024-05-23T08:15:00");
 
   // State to store the countdown
   const [countdown, setCountdown] = useState("");
-  const [germanGDP, setGermanGDP] = useState(0);
-  const [usBurgers, setUsBurgers] = useState(0);
+  const [germanGDP, setGermanGDP] = useState("");
+  const [usBurgers, setUsBurgers] = useState("");
 
   const GermanGPDperH = 470433789.95;
   const USBurgersperH = 5707762.56;
 
   // Helper function to format the numbers
-  const formatNumber = (number) => {
+  const formatNumber = (number: any) => {
     return new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(
       number
     );
@@ -23,7 +23,7 @@ export default function Home() {
   useEffect(() => {
     // Update the countdown and calculations by calculating the time difference
     const interval = setInterval(() => {
-      const now = new Date();
+      const now: any = new Date();
       const difference = targetDate - now;
 
       // Calculate time components
