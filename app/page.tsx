@@ -14,6 +14,7 @@ export default function Home() {
   const [mundMWasser, setMundMWasser] = useState("Berechnung...");
   const [amyConvini, setAmyConvini] = useState("Berechnung...");
   const [zinoItaly, setZinoItaly] = useState("Berechnung...");
+  const [amyScreenTime, setAmyScreenTime] = useState("Berechnung...");
 
   const GermanGPDperH = 470433789.95;
   const USBurgersperH = 5707762.56;
@@ -22,6 +23,7 @@ export default function Home() {
   const MundMWasserproH = 0.000114375;
   const AmyConvini = 0.0273224044;
   const ZinoDaysinItalyperH = 0.0057142857;
+  const AmyScreenTime = 0.3333333333;
 
   // Helper function to format the numbers
   const formatNumberSmall = (number: any) => {
@@ -88,6 +90,9 @@ export default function Home() {
           formatNumberSmall((MundMWasserproH / 3600) * totalSeconds)
         );
         setAmyConvini(formatNumberSmall((AmyConvini / 3600) * totalSeconds));
+        setAmyScreenTime(
+          formatNumberSmall((AmyScreenTime / 3600) * totalSeconds)
+        );
       } else {
         setGermanGDP("Berechnung abgeschlossen");
         setUsBurgers("Berechnung abgeschlossen");
@@ -96,6 +101,7 @@ export default function Home() {
         setMundMWasser("Berechnung abgeschlossen");
         setAmyConvini("Berechnung abgeschlossen");
         setZinoItaly("Berechnung abgeschlossen");
+        setAmyScreenTime("Berechnung abgeschlossen");
       }
     }, 1000);
 
@@ -166,6 +172,12 @@ export default function Home() {
         </div>
         <div className="col-span-2 responsive-text">
           <p> {zinoItaly} </p>
+        </div>
+        <div className="responsive-text">
+          <p>So viele Stunden wird Amy vor ihrem Handy verbringen:</p>
+        </div>
+        <div className="col-span-2 responsive-text">
+          <p> {amyScreenTime} </p>
         </div>
       </main>
     </>
