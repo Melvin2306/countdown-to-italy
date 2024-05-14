@@ -101,7 +101,7 @@ export default function Home() {
 
     // Clear interval on component unmount
     return () => clearInterval(interval);
-  }, [targetDate]);
+  }, [targetDate, zinoItaly]);
 
   return (
     <>
