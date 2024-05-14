@@ -13,6 +13,7 @@ export default function Home() {
   const [zinoWasser, setZinoWasser] = useState("Berechnung...");
   const [mundMWasser, setMundMWasser] = useState("Berechnung...");
   const [amyConvini, setAmyConvini] = useState("Berechnung...");
+  const [zinoItaly, setZinoItaly] = useState("Berechnung...");
 
   const GermanGPDperH = 470433789.95;
   const USBurgersperH = 5707762.56;
@@ -20,6 +21,7 @@ export default function Home() {
   const ZinoWasserproH = 0.0725;
   const MundMWasserproH = 0.000114375;
   const AmyConvini = 0.0273224044;
+  const ZinoDaysinItalyperH = 0.0057142857;
 
   // Helper function to format the numbers
   const formatNumberSmall = (number: any) => {
@@ -55,8 +57,23 @@ export default function Home() {
         setCountdown(
           `${days} Tage ${hours} Stunden ${minutes} Minuten ${seconds} Sekunden`
         );
+        const zinoDaysInItaly = ZinoDaysinItalyperH * totalHours;
+        // Format the days into days, hours, minutes, and seconds
+        const zinoDays = Math.floor(zinoDaysInItaly);
+        const zinoHours = Math.floor((zinoDaysInItaly - zinoDays) * 24);
+        const zinoMinutes = Math.floor(
+          ((zinoDaysInItaly - zinoDays) * 24 - zinoHours) * 60
+        );
+        const zinoSeconds = Math.floor(
+          (((zinoDaysInItaly - zinoDays) * 24 - zinoHours) * 60 - zinoMinutes) *
+            60
+        );
+        setZinoItaly(
+          `${zinoDays} Tage ${zinoHours} Stunden ${zinoMinutes} Minuten ${zinoSeconds} Sekunden`
+        );
       } else {
         setCountdown("Zeit abgelaufen");
+        setZinoItaly("Zeit abgelaufen");
       }
 
       // Calculate and update the German GDP and US Burgers per second, rounded down and formatted
@@ -78,6 +95,7 @@ export default function Home() {
         setZinoWasser("Berechnung abgeschlossen");
         setMundMWasser("Berechnung abgeschlossen");
         setAmyConvini("Berechnung abgeschlossen");
+        setZinoItaly("Berechnung abgeschlossen");
       }
     }, 1000);
 
@@ -142,6 +160,12 @@ export default function Home() {
         </div>
         <div className="col-span-2 responsive-text">
           <p> {amyConvini} €</p>
+        </div>
+        <div className="responsive-text">
+          <p>So viele Tage ist Zino noch durchschnittlich in Italien:</p>
+        </div>
+        <div className="col-span-2 responsive-text">
+          <p> {zinoItaly} </p>
         </div>
       </main>
     </>
