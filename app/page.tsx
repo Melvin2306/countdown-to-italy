@@ -12,12 +12,14 @@ export default function Home() {
   const [burgerGeld, setBurgerGeld] = useState("Berechnung...");
   const [zinoWasser, setZinoWasser] = useState("Berechnung...");
   const [mundMWasser, setMundMWasser] = useState("Berechnung...");
+  const [amyConvini, setAmyConvini] = useState("Berechnung...");
 
   const GermanGPDperH = 470433789.95;
   const USBurgersperH = 5707762.56;
   const BurgerGeldperH = 3025114.155;
   const ZinoWasserproH = 0.0725;
   const MundMWasserproH = 0.000114375;
+  const AmyConvini = 0.0273224044;
 
   // Helper function to format the numbers
   const formatNumberSmall = (number: any) => {
@@ -68,12 +70,14 @@ export default function Home() {
         setMundMWasser(
           formatNumberSmall((MundMWasserproH / 3600) * totalSeconds)
         );
+        setAmyConvini(formatNumberSmall((AmyConvini / 3600) * totalSeconds));
       } else {
         setGermanGDP("Berechnung abgeschlossen");
         setUsBurgers("Berechnung abgeschlossen");
         setBurgerGeld("Berechnung abgeschlossen");
         setZinoWasser("Berechnung abgeschlossen");
         setMundMWasser("Berechnung abgeschlossen");
+        setAmyConvini("Berechnung abgeschlossen");
       }
     }, 1000);
 
@@ -132,6 +136,12 @@ export default function Home() {
         </div>
         <div className="col-span-2 responsive-text">
           <p> {mundMWasser} €</p>
+        </div>
+        <div className="responsive-text">
+          <p>So viel Geld wird Amy noch bei Convini ausgeben:</p>
+        </div>
+        <div className="col-span-2 responsive-text">
+          <p> {amyConvini} €</p>
         </div>
       </main>
     </>
