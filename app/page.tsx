@@ -20,10 +20,17 @@ export default function Home() {
   const MundMWasserproH = 0.000114375;
 
   // Helper function to format the numbers
+  const formatNumberSmall = (number: any) => {
+    return new Intl.NumberFormat("de-DE", {
+      maximumFractionDigits: 4, // Allow two decimal places
+      minimumFractionDigits: 4, // Ensure that there are always two decimal places
+    }).format(number);
+  };
+
   const formatNumber = (number: any) => {
     return new Intl.NumberFormat("de-DE", {
-      maximumFractionDigits: 2, // Allow two decimal places
-      minimumFractionDigits: 2, // Ensure that there are always two decimal places
+      maximumFractionDigits: 0, // Allow two decimal places
+      minimumFractionDigits: 0, // Ensure that there are always two decimal places
     }).format(number);
   };
 
@@ -55,8 +62,12 @@ export default function Home() {
         setGermanGDP(formatNumber((GermanGPDperH / 3600) * totalSeconds));
         setUsBurgers(formatNumber((USBurgersperH / 3600) * totalSeconds));
         setBurgerGeld(formatNumber((BurgerGeldperH / 3600) * totalSeconds));
-        setZinoWasser(formatNumber((ZinoWasserproH / 3600) * totalSeconds));
-        setMundMWasser(formatNumber((MundMWasserproH / 3600) * totalSeconds));
+        setZinoWasser(
+          formatNumberSmall((ZinoWasserproH / 3600) * totalSeconds)
+        );
+        setMundMWasser(
+          formatNumberSmall((MundMWasserproH / 3600) * totalSeconds)
+        );
       } else {
         setGermanGDP("Berechnung abgeschlossen");
         setUsBurgers("Berechnung abgeschlossen");
