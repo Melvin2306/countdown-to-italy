@@ -5,19 +5,26 @@ export default function Home() {
   // Set the target date and time for countdown
   const targetDate: any = new Date("2024-05-23T08:15:00");
 
-  // State to store the countdown
-  const [countdown, setCountdown] = useState("");
-  const [germanGDP, setGermanGDP] = useState("");
-  const [usBurgers, setUsBurgers] = useState("");
+  // State to store the countdown with a skeleton placeholder
+  const [countdown, setCountdown] = useState("Lädt...");
+  const [germanGDP, setGermanGDP] = useState("Berechnung...");
+  const [usBurgers, setUsBurgers] = useState("Berechnung...");
+  const [burgerGeld, setBurgerGeld] = useState("Berechnung...");
+  const [zinoWasser, setZinoWasser] = useState("Berechnung...");
+  const [mundMWasser, setMundMWasser] = useState("Berechnung...");
 
   const GermanGPDperH = 470433789.95;
   const USBurgersperH = 5707762.56;
+  const BurgerGeldperH = 3025114.155;
+  const ZinoWasserproH = 0.0725;
+  const MundMWasserproH = 0.000114375;
 
   // Helper function to format the numbers
   const formatNumber = (number: any) => {
-    return new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(
-      number
-    );
+    return new Intl.NumberFormat("de-DE", {
+      maximumFractionDigits: 2, // Allow two decimal places
+      minimumFractionDigits: 2, // Ensure that there are always two decimal places
+    }).format(number);
   };
 
   useEffect(() => {
@@ -35,17 +42,28 @@ export default function Home() {
       const totalSeconds = difference / 1000; // total seconds until target date
 
       // Update the countdown state
-      setCountdown(
-        `${days} Tage ${hours} Stunden ${minutes} Minuten ${seconds} Sekunden`
-      );
+      if (difference > 0) {
+        setCountdown(
+          `${days} Tage ${hours} Stunden ${minutes} Minuten ${seconds} Sekunden`
+        );
+      } else {
+        setCountdown("Zeit abgelaufen");
+      }
 
       // Calculate and update the German GDP and US Burgers per second, rounded down and formatted
-      setGermanGDP(
-        formatNumber(Math.floor((GermanGPDperH / 3600) * totalSeconds))
-      );
-      setUsBurgers(
-        formatNumber(Math.floor((USBurgersperH / 3600) * totalSeconds))
-      );
+      if (difference > 0) {
+        setGermanGDP(formatNumber((GermanGPDperH / 3600) * totalSeconds));
+        setUsBurgers(formatNumber((USBurgersperH / 3600) * totalSeconds));
+        setBurgerGeld(formatNumber((BurgerGeldperH / 3600) * totalSeconds));
+        setZinoWasser(formatNumber((ZinoWasserproH / 3600) * totalSeconds));
+        setMundMWasser(formatNumber((MundMWasserproH / 3600) * totalSeconds));
+      } else {
+        setGermanGDP("Berechnung abgeschlossen");
+        setUsBurgers("Berechnung abgeschlossen");
+        setBurgerGeld("Berechnung abgeschlossen");
+        setZinoWasser("Berechnung abgeschlossen");
+        setMundMWasser("Berechnung abgeschlossen");
+      }
     }, 1000);
 
     // Clear interval on component unmount
@@ -53,29 +71,58 @@ export default function Home() {
   }, [targetDate]);
 
   return (
-    <main className="flex flex-row items-center justify-between p-24">
-      <div className="z-10 gap-3 w-full max-w-5xl items-center flex flex-row justify-between font-mono text-sm lg:flex">
-        {/* Display the countdown */}
-        <div className="fixed left-0 top-0 w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          <p>Zeit bis Italien {countdown}</p>
+    <>
+      <style>
+        {`
+          @media (max-width: 550px) {
+            .responsive-text {
+              font-size: text-sm;
+            }
+            .responsive-padding {
+              padding-left: 8px;
+              padding-right: 8px;
+            }
+          }
+        `}
+      </style>
+      <main className="grid grid-cols-3 gap-4 items-center justify-between p-24 responsive-padding">
+        <div className="responsive-text">
+          <p>Zeit bis Italien </p>
         </div>
-
-        {/* Display the German GDP per second */}
-        <div className="fixed left-0 bottom-0 flex w-full justify-center border-t border-gray-300 bg-gradient-to-t from-zinc-200 pb-8 pt-6 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          <p>
-            So viel GDP wird in Deutschland bis dahin noch erzeugt: {germanGDP}{" "}
-            €
-          </p>
+        <div className="col-span-2 responsive-text">
+          <p>{countdown}</p>
         </div>
-
-        {/* Display the US Burgers per second */}
-        <div className="fixed right-0 bottom-0 flex w-full justify-center border-t border-gray-300 bg-gradient-to-t from-zinc-200 pb-8 pt-6 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          <p>
-            So viele Burger werden in den USA bis dahin noch gegessen:{" "}
-            {usBurgers}
-          </p>
+        <div className="responsive-text">
+          <p>So viel GDP wird in Deutschland bis dahin noch erzeugt:</p>
         </div>
-      </div>
-    </main>
+        <div className="col-span-2 responsive-text">
+          <p> {germanGDP} €</p>
+        </div>
+        <div className="responsive-text">
+          <p>So viele Burger werden in den USA bis dahin noch gegessen:</p>
+        </div>
+        <div className="col-span-2 responsive-text">
+          <p> {usBurgers}</p>
+        </div>
+        <div className="responsive-text">
+          <p>So viel Bürgergeld wird bis dahin ausgezahlt:</p>
+        </div>
+        <div className="col-span-2 responsive-text">
+          <p> {burgerGeld} €</p>
+        </div>
+        <div className="responsive-text">
+          <p>So viel Geld wird Zino noch für Wasser ausgeben:</p>
+        </div>
+        <div className="col-span-2 responsive-text">
+          <p> {zinoWasser} €</p>
+        </div>
+        <div className="responsive-text">
+          <p>So viel Geld werden Markus und Melvin noch für Wasser ausgeben:</p>
+        </div>
+        <div className="col-span-2 responsive-text">
+          <p> {mundMWasser} €</p>
+        </div>
+      </main>
+    </>
   );
 }
