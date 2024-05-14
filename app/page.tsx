@@ -70,12 +70,19 @@ export default function Home() {
           (((zinoDaysInItaly - zinoDays) * 24 - zinoHours) * 60 - zinoMinutes) *
             60
         );
+        const amyScreenTime = AmyScreenTime * totalHours;
+        setAmyScreenTime(
+          `${Math.floor(amyScreenTime)} Stunden ${Math.floor(
+            (amyScreenTime - Math.floor(amyScreenTime)) * 60
+          )} Minuten`
+        );
         setZinoItaly(
           `${zinoDays} Tage ${zinoHours} Stunden ${zinoMinutes} Minuten ${zinoSeconds} Sekunden`
         );
       } else {
         setCountdown("Zeit abgelaufen");
         setZinoItaly("Zeit abgelaufen");
+        setAmyScreenTime("Zeit abgelaufen");
       }
 
       // Calculate and update the German GDP and US Burgers per second, rounded down and formatted
@@ -90,9 +97,6 @@ export default function Home() {
           formatNumberSmall((MundMWasserproH / 3600) * totalSeconds)
         );
         setAmyConvini(formatNumberSmall((AmyConvini / 3600) * totalSeconds));
-        setAmyScreenTime(
-          formatNumberSmall((AmyScreenTime / 3600) * totalSeconds)
-        );
       } else {
         setGermanGDP("Berechnung abgeschlossen");
         setUsBurgers("Berechnung abgeschlossen");
@@ -101,13 +105,12 @@ export default function Home() {
         setMundMWasser("Berechnung abgeschlossen");
         setAmyConvini("Berechnung abgeschlossen");
         setZinoItaly("Berechnung abgeschlossen");
-        setAmyScreenTime("Berechnung abgeschlossen");
       }
     }, 1000);
 
     // Clear interval on component unmount
     return () => clearInterval(interval);
-  }, [targetDate, zinoItaly]);
+  }, [targetDate, zinoItaly, amyScreenTime]);
 
   return (
     <>
