@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 export default function Home() {
   // Set the target date and time for countdown
-  const targetDate: any = new Date("2024-05-23T08:15:00");
+  const targetDate: any = new Date("2024-07-05T09:25:00");
 
   // State to store the countdown with a skeleton placeholder
   const [countdown, setCountdown] = useState("Lädt...");
